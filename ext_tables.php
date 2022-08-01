@@ -5,13 +5,11 @@ call_user_func(
     function($extKey)
     {
 
-        //=================================================================
-        // Add Tables
-        //=================================================================
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
-            'tx_rkwcanvas_domain_model_canvas'
+        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+            'RKW.RkwCanvas',
+            'Canvas',
+            'RKW Canvas: Canvas'
         );
-
 
     },
     $_EXTKEY

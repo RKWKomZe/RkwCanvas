@@ -9,15 +9,15 @@ call_user_func(
         // Configure Plugins
         //=================================================================
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-            'RKW.' . $extKey,
+            'RKW.RkwCanvas',
             'Canvas',
             [
-                'Canvas' => 'edit, update, save',
+                'Canvas' => 'edit',
             ],
 
             // non-cacheable actions
             [
-                'Canvas' => 'edit, update, save',
+                'Canvas' => 'edit',
             ]
         );
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace RKW\RkwCanvas\Controller;
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -48,8 +49,6 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     /**
      * action edit
      *
-     * @param array $topics
-     * @param integer $privacy
      * @return void
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
@@ -57,7 +56,7 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     public function editAction(): void
     {
-        var_dump('hi there');
+        return;
     }
 
 }
