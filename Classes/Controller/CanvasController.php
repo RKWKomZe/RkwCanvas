@@ -26,6 +26,39 @@ namespace RKW\RkwCanvas\Controller;
 class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
 
+    const SESSION_KEY = 'rkw_canvas';
+
+    /**
+     * canvasRepository
+     *
+     * @var \RKW\RkwCanvas\Domain\Repository\CanvasRepository
+     * @inject
+     */
+    protected $canvasRepository = null;
+
+//    /**
+//     * frontendUserRepository
+//     *
+//     * @var \RKW\RkwRegistration\Domain\Repository\FrontendUserRepository
+//     * @inject
+//     */
+//    protected $frontendUserRepository = null;
+//
+//    /**
+//     * logged in FrontendUser
+//     *
+//     * @var \RKW\RkwRegistration\Domain\Model\FrontendUser
+//     */
+//    protected $frontendUser = null;
+
+    /**
+     * Persistence Manager
+     *
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+     * @inject
+     */
+    protected $persistenceManager;
+
     /**
      * @var \TYPO3\CMS\Extbase\Object\ObjectManager
      * @inject
@@ -57,6 +90,55 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function editAction(): void
     {
         return;
+    }
+
+    /**
+     * action jsonGet
+     *
+     * @return string
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
+     */
+    public function jsonGetAction(): string
+    {
+
+        $canvasId = 1;
+
+        /** @var  \RKW\RkwCanvas\Domain\Model\Canvas $canvasTemp */
+        $canvasTemp = $this->canvasRepository->findByIdentifier(intval($canvasId));
+
+
+        $jsonData = $canvasTemp->getNotes();
+
+        return json_encode($jsonData);
+    }
+
+    /**
+     * action jsonPost
+     *
+     * @param string $notes
+     * @return string
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     */
+    public function jsonPostAction($notes = ''): string
+    {
+
+        $canvasId = 1;
+
+        /** @var  \RKW\RkwCanvas\Domain\Model\Canvas $canvasTemp */
+        $canvas = $this->canvasRepository->findByIdentifier(intval($canvasId));
+        $canvas->setNotes($notes);
+
+
+        $this->canvasRepository->update($canvas);
+        $this->persistenceManager->persistAll();
+
+        return json_encode(["ok" => "ok"]);
+
     }
 
 }
