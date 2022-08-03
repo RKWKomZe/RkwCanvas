@@ -1,0 +1,77 @@
+config.tx_extbase.persistence {
+    classes {
+#        RKW\RkwWebcheck\Domain\Model\FrontendUser {
+#            mapping {
+#                tableName = fe_users
+#                recordType =
+#            }
+#        }
+#        RKW\RkwRegistration\Domain\Model\FrontendUser {
+#            subclasses {
+#                Tx_RkwWebcheck_FrontendUser = RKW\RkwWebcheck\Domain\Model\FrontendUser
+#            }
+#        }
+#        RKW\RkwWebcheck\Domain\Model\BackendUser {
+#            mapping {
+#                tableName = be_users
+#                columns {
+#                    usergroup.mapOnProperty = backendUserGroups
+#                }
+#            }
+#        }
+#        RKW\RkwWebcheck\Domain\Model\CheckResult {
+#            mapping {
+#                # mapping to properties of class
+#                columns {
+#                    tstamp.mapOnProperty = tstamp
+#                    crdate.mapOnProperty = crdate
+#                }
+#            }
+#        }
+    }
+}
+
+plugin.tx_rkwcanvas {
+    view {
+        templateRootPaths.0 = {$plugin.tx_rkwcanvas.view.templateRootPath}
+        partialRootPaths.0 = {$plugin.tx_rkwcanvas.view.partialRootPath}
+        layoutRootPaths.0 = {$plugin.tx_rkwcanvas.view.layoutRootPath}
+    }
+    persistence {
+        storagePid = {$plugin.tx_rkwcanvas.persistence.storagePid}
+    }
+}
+
+# see Configuration/TypoScript/setup.typoscript
+page.includeCSS.txRkwCanvas = EXT:rkw_canvas/Resources/Public/Styles/canvas.css
+page.includeJSFooter.txRkwCanvas = EXT:rkw_canvas/Resources/Public/Scripts/canvas.js
+
+txRkwCanvasAjaxGet = PAGE
+txRkwCanvasAjaxGet {
+    typeNum = 260
+    config {
+        additionalHeaders = Content-Type: application/json
+        additionalHeaders.10.header = Content-Type: application/json
+        no_cache = 1
+        disableAllHeaderCode = 1
+        disablePrefixComment = 1
+        xhtml_cleaning = 0
+        admPanel = 0
+        debug = 0
+    }
+    10 = USER_INT
+    10 {
+        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+        pluginName = Canvas
+        vendorName = RKW
+        extensionName = RkwCanvas
+        controller = Canvas
+        switchableControllerActions {
+            Canvas {
+                1 = jsonGet
+                2 = jsonPost
+            }
+        }
+        features.requireCHashArgumentForActionArguments = 0
+    }
+}

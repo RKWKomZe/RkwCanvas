@@ -1,0 +1,19 @@
+plugin.tx_rkwcanvas {
+    view {
+        # cat=plugin.tx_rkwcanvas/file; type=string; label=Path to template root (FE)
+        templateRootPath = EXT:rkw_canvas/Resources/Private/Templates/
+        # cat=plugin.tx_rkwcanvas/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:rkw_canvas/Resources/Private/Partials/
+        # cat=plugin.tx_rkwcanvas/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:rkw_canvas/Resources/Private/Layouts/
+    }
+    persistence {
+        # cat=plugin.tx_rkwcanvas; type=integer; label=Default storage PID (read/write)
+        storagePid =
+    }
+}
+
+
+
+
+
