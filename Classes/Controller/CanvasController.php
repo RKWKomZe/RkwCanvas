@@ -198,7 +198,10 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
                 $returnArray['message'] = [
                     'type' => 'success',
-                    'message' => 'Ihre Notizen wurden gespeichert.'
+                    'message' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                        'canvasController.message.success.notesSaved',
+                        'rkw_canvas'
+                    ),
                 ];
 
             } else {
@@ -215,7 +218,10 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
                 $returnArray['message'] = [
                     'type' => 'success',
-                    'message' => 'Ihre Notizen wurden gespeichert.'
+                    'message' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                        'canvasController.message.success.notesSaved',
+                        'rkw_canvas'
+                    ),
                 ];
 
             }
@@ -224,7 +230,10 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
             $returnArray['message'] = [
                 'type' => 'error',
-                'message' => 'Ihre Notizen konnten nicht gespeichert werden.'
+                'message' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'canvasController.message.success.notesSavingFailed',
+                    'rkw_canvas'
+                ),
             ];
 
         }

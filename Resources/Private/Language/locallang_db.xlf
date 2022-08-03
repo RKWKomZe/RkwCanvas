@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file datatype="plaintext" original="messages" product-name="rkw_canvas" source-language="en" target-language="de" date="2017-08-17T15:06:22Z">
+        <header/>
+        <body>
+
+			<!--
+			=========================== MODELS ============================================
+			-->
+
+			<!-- tx_rkwcanvas_domain_model_canvas -->
+			<trans-unit id="tx_rkwcanvas_domain_model_canvas">
+				<source>RKW Canvas: Canvas</source>
+			</trans-unit>
+			<trans-unit id="tx_rkwcanvas_domain_model_canvas.title">
+				<source>Title</source>
+			</trans-unit>
+
+			<!--
+			=========================== CONTROLLER ============================================
+			-->
+
+            <!-- Flash-Messages -->
+            <trans-unit id="canvasController.message.success.notesSaved">
+                <source>Your notes have been saved.</source>
+            </trans-unit>
+            <trans-unit id="canvasController.message.success.notesSavingFailed">
+                <source>Your notes could not be saved.</source>
+            </trans-unit>
+
+		</body>
+	</file>
+</xliff>
