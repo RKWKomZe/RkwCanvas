@@ -15,6 +15,7 @@ namespace RKW\RkwCanvas\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
@@ -199,6 +200,24 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                     'type' => 'success',
                     'message' => 'Ihre Notizen wurden gespeichert.'
                 ];
+
+            } else {
+
+                // Initialize new canvas
+                /** @var \RKW\RkwCanvas\Domain\Model\Canvas $canvas */
+                $canvas = GeneralUtility::makeInstance('RKW\\RkwCanvas\\Domain\\Model\\Canvas');
+                $canvas->setNotes($notes);
+                $canvas->setFrontendUser($this->getFrontendUser());
+                $this->canvasRepository->add($canvas);
+
+                // Persist
+                $this->persistenceManager->persistAll();
+
+                $returnArray['message'] = [
+                    'type' => 'success',
+                    'message' => 'Ihre Notizen wurden gespeichert.'
+                ];
+
             }
 
         } else {
