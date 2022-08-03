@@ -69,35 +69,7 @@ txRkwCanvasAjaxGet {
         switchableControllerActions {
             Canvas {
                 1 = jsonGet
-            }
-        }
-        features.requireCHashArgumentForActionArguments = 0
-    }
-}
-
-txRkwCanvasAjaxPost = PAGE
-txRkwCanvasAjaxPost {
-    typeNum = 261
-    config {
-        additionalHeaders = Content-Type: application/json
-        additionalHeaders.10.header = Content-Type: application/json
-        no_cache = 1
-        disableAllHeaderCode = 1
-        disablePrefixComment = 1
-        xhtml_cleaning = 0
-        admPanel = 0
-        debug = 0
-    }
-    10 = USER_INT
-    10 {
-        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-        pluginName = Canvas
-        vendorName = RKW
-        extensionName = RkwCanvas
-        controller = Canvas
-        switchableControllerActions {
-            Canvas {
-                1 = jsonPost
+                2 = jsonPost
             }
         }
         features.requireCHashArgumentForActionArguments = 0

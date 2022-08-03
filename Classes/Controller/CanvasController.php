@@ -105,14 +105,16 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function jsonGetAction(): string
     {
 
+        $returnArray = [];
+
         $canvasId = 1;
 
         /** @var  \RKW\RkwCanvas\Domain\Model\Canvas $canvasTemp */
         $canvasTemp = $this->canvasRepository->findByIdentifier(intval($canvasId));
 
-        $jsonData = $canvasTemp->getNotes();
+        $returnArray['data'] = $canvasTemp->getNotes();
 
-        return json_encode($jsonData);
+        return json_encode($returnArray);
     }
 
     /**
@@ -129,6 +131,8 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function jsonPostAction($notes = ''): string
     {
 
+        $returnArray = [];
+
         if ($this->request->hasArgument('notes')) {
 
             $notes = trim(stripslashes($this->request->getArgument('notes')), '"');
@@ -142,11 +146,15 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             $this->canvasRepository->update($canvas);
             $this->persistenceManager->persistAll();
 
-            return json_encode('success');
+            $returnArray['message'] = 'Ihre Notizen wurden gespeichert.';
+
+        } else {
+
+            $returnArray['message'] = 'Ihre Notizen konnten nicht gespeichert werden.';
 
         }
 
-        return json_encode('error');
+        return json_encode($returnArray);
 
     }
 
