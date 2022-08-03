@@ -30,6 +30,14 @@
                 <source>Your notes could not be saved.</source>
                 <target>Ihre Notizen konnten nicht gespeichert werden.</target>
             </trans-unit>
+            <trans-unit id="canvasController.message.success.notesLoaded">
+                <source>Your notes have been loaded.</source>
+                <target>Ihre Notizen wurden geladen.</target>
+            </trans-unit>
+            <trans-unit id="canvasController.message.success.notesNotFound">
+                <source>Your notes could not be found.</source>
+                <target>Es konnten keine Notizen für Sie gefunden werden.</target>
+            </trans-unit>
 
 		</body>
 	</file>

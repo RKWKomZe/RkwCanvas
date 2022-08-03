@@ -126,7 +126,7 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     public function editAction(): void
     {
-        $messages = [
+        $translations = [
             'canvasController.message.success.notesSaved' => [
                 'value' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
                     'canvasController.message.success.notesSaved',
@@ -141,7 +141,7 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             ],
         ];
 
-        $this->view->assign('translations', json_encode($messages));
+        $this->view->assign('translations', json_encode($translations));
     }
 
     /**
@@ -164,7 +164,10 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
             $returnArray['message'] = [
                 'type'  => 'success',
-                'message' => 'Ihre Notizen wurden geladen.'
+                'message' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'canvasController.message.success.notesLoaded',
+                    'rkw_canvas'
+                )
             ];
             $returnArray['data'] = $canvas->getNotes();
 
@@ -174,7 +177,10 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
         $returnArray['message'] = [
             'type'  => 'error',
-            'message' => 'Es konnten keine Notizen für Sie gefunden werden.'
+            'message' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                'canvasController.message.success.notesNotFound',
+                'rkw_canvas'
+            )
         ];
 
         return json_encode($returnArray);

@@ -27,6 +27,12 @@
             <trans-unit id="canvasController.message.success.notesSavingFailed">
                 <source>Your notes could not be saved.</source>
             </trans-unit>
+            <trans-unit id="canvasController.message.success.notesLoaded">
+                <source>Your notes have been loaded.</source>
+            </trans-unit>
+            <trans-unit id="canvasController.message.success.notesNotFound">
+                <source>Your notes could not be found.</source>
+            </trans-unit>
 
 		</body>
 	</file>
