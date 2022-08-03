@@ -15,6 +15,8 @@ namespace RKW\RkwCanvas\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+
 /**
  * CanvasController
  *
@@ -108,7 +110,6 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         /** @var  \RKW\RkwCanvas\Domain\Model\Canvas $canvasTemp */
         $canvasTemp = $this->canvasRepository->findByIdentifier(intval($canvasId));
 
-
         $jsonData = $canvasTemp->getNotes();
 
         return json_encode($jsonData);
@@ -118,6 +119,7 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * action jsonPost
      *
      * @param string $notes
+     * @param string $check
      * @return string
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
@@ -127,17 +129,24 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     public function jsonPostAction($notes = ''): string
     {
 
-        $canvasId = 1;
+        if ($this->request->hasArgument('notes')) {
 
-        /** @var  \RKW\RkwCanvas\Domain\Model\Canvas $canvasTemp */
-        $canvas = $this->canvasRepository->findByIdentifier(intval($canvasId));
-        $canvas->setNotes($notes);
+            $notes = trim(stripslashes($this->request->getArgument('notes')), '"');
 
+            $canvasId = 1;
 
-        $this->canvasRepository->update($canvas);
-        $this->persistenceManager->persistAll();
+            /** @var  \RKW\RkwCanvas\Domain\Model\Canvas $canvasTemp */
+            $canvas = $this->canvasRepository->findByIdentifier(intval($canvasId));
+            $canvas->setNotes($notes);
 
-        return json_encode(["ok" => "ok"]);
+            $this->canvasRepository->update($canvas);
+            $this->persistenceManager->persistAll();
+
+            return json_encode('success');
+
+        }
+
+        return json_encode('error');
 
     }
 

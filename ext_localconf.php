@@ -12,12 +12,12 @@ call_user_func(
             'RKW.RkwCanvas',
             'Canvas',
             [
-                'Canvas' => 'edit, json',
+                'Canvas' => 'edit, jsonGet, jsonPost',
             ],
 
             // non-cacheable actions
             [
-                'Canvas' => 'edit, json',
+                'Canvas' => 'edit, jsonGet, jsonPost',
             ]
         );
 
