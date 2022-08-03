@@ -126,7 +126,22 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     public function editAction(): void
     {
-        return;
+        $messages = [
+            'canvasController.message.success.notesSaved' => [
+                'value' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'canvasController.message.success.notesSaved',
+                    'rkw_canvas'
+                )
+            ],
+            'canvasController.message.success.notesSavingFailed' => [
+                'value' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'canvasController.message.success.notesSavingFailed',
+                    'rkw_canvas'
+                )
+            ],
+        ];
+
+        $this->view->assign('translations', json_encode($messages));
     }
 
     /**
