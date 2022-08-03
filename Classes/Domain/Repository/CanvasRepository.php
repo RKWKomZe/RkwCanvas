@@ -26,4 +26,34 @@ namespace RKW\RkwCanvas\Domain\Repository;
 class CanvasRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 {
 
+    /**
+     * Set setRespectStorage on FALSE by default
+     */
+    public function initializeObject()
+    {
+        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings $querySettings */
+        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+        $querySettings->setRespectStoragePage(false); // ignore the storagePid
+        $this->setDefaultQuerySettings($querySettings);
+    }
+
+    /**
+     * find canvases for a specific user
+     * sorted by tstamp
+     *
+     * @param \RKW\RkwWebcheck\Domain\Model\FrontendUser $feUser
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findByFeUser($feUser)
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('frontendUser', $feUser)
+        );
+        $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
+
+        return $query->execute();
+        //===
+    }
+
 }

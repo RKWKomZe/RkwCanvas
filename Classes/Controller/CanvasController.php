@@ -38,20 +38,13 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     protected $canvasRepository = null;
 
-//    /**
-//     * frontendUserRepository
-//     *
-//     * @var \RKW\RkwRegistration\Domain\Repository\FrontendUserRepository
-//     * @inject
-//     */
-//    protected $frontendUserRepository = null;
-//
-//    /**
-//     * logged in FrontendUser
-//     *
-//     * @var \RKW\RkwRegistration\Domain\Model\FrontendUser
-//     */
-//    protected $frontendUser = null;
+    /**
+     * frontendUserRepository
+     *
+     * @var \RKW\RkwRegistration\Domain\Repository\FrontendUserRepository
+     * @inject
+     */
+    protected $frontendUserRepository = null;
 
     /**
      * Persistence Manager
@@ -82,6 +75,47 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
     }
 
     /**
+     * returns the logged in FrontendUser - to be used in other functions
+     *
+     * @return int the user id
+     */
+    protected function getFrontendUserId()
+    {
+        $userId = $GLOBALS['TSFE']->fe_user->user['uid'];
+
+        return $userId;
+        //===
+    }
+
+    /**
+     * Returns current logged in user object
+     *
+     * @return \RKW\RkwWebcheck\Domain\Model\FrontendUser|NULL
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     */
+    protected function getFrontendUser()
+    {
+
+        if (!$this->getFrontendUserId()) {
+            $this->addFlashMessage(
+                \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'webcheckController.warning.notLoggedIn',
+                    'rkw_webcheck'
+                ),
+                null,
+                \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR
+            );
+            $this->redirect('error');
+            //===
+        }
+
+        /** @var \RKW\RkwWebcheck\Domain\Repository\FrontendUserRepository $frontendUserRepository */
+        return $this->frontendUserRepository->findByIdentifier($this->getFrontendUserId());
+        //===
+    }
+
+    /**
      * action edit
      *
      * @return void
@@ -107,12 +141,25 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
         $returnArray = [];
 
-        $canvasId = 1;
+        $canvases = $this->canvasRepository->findByFeUser($this->getFrontendUser());
 
-        /** @var  \RKW\RkwCanvas\Domain\Model\Canvas $canvasTemp */
-        $canvasTemp = $this->canvasRepository->findByIdentifier(intval($canvasId));
+        if (count($canvases) > 0) {
+            $canvas = $canvases->getFirst();
 
-        $returnArray['data'] = $canvasTemp->getNotes();
+            $returnArray['message'] = [
+                'type'  => 'success',
+                'message' => 'Ihre Notizen wurden geladen.'
+            ];
+            $returnArray['data'] = $canvas->getNotes();
+
+            return json_encode($returnArray);
+            //===
+        }
+
+        $returnArray['message'] = [
+            'type'  => 'error',
+            'message' => 'Es konnten keine Notizen für Sie gefunden werden.'
+        ];
 
         return json_encode($returnArray);
     }
@@ -121,7 +168,6 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * action jsonPost
      *
      * @param string $notes
-     * @param string $check
      * @return string
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
@@ -133,24 +179,34 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
         $returnArray = [];
 
-        if ($this->request->hasArgument('notes')) {
+        $frontendUser = $this->getFrontendUser();
+
+        if ($this->request->hasArgument('notes') && $frontendUser) {
 
             $notes = trim(stripslashes($this->request->getArgument('notes')), '"');
 
-            $canvasId = 1;
+            $canvases = $this->canvasRepository->findByFeUser($this->getFrontendUser());
 
-            /** @var  \RKW\RkwCanvas\Domain\Model\Canvas $canvasTemp */
-            $canvas = $this->canvasRepository->findByIdentifier(intval($canvasId));
-            $canvas->setNotes($notes);
+            if (count($canvases) > 0) {
+                $canvas = $canvases->getFirst();
+                $canvas->setNotes($notes);
+                $canvas->setFrontendUser($frontendUser);
 
-            $this->canvasRepository->update($canvas);
-            $this->persistenceManager->persistAll();
+                $this->canvasRepository->update($canvas);
+                $this->persistenceManager->persistAll();
 
-            $returnArray['message'] = 'Ihre Notizen wurden gespeichert.';
+                $returnArray['message'] = [
+                    'type' => 'success',
+                    'message' => 'Ihre Notizen wurden gespeichert.'
+                ];
+            }
 
         } else {
 
-            $returnArray['message'] = 'Ihre Notizen konnten nicht gespeichert werden.';
+            $returnArray['message'] = [
+                'type' => 'error',
+                'message' => 'Ihre Notizen konnten nicht gespeichert werden.'
+            ];
 
         }
 
