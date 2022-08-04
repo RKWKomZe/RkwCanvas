@@ -121,6 +121,43 @@
     color: #ca3b12;
 }
 
+.sidebar {
+    width: 600px;
+}
+
+.mdl__content .tabs-component-tabs, .sidebar__content .tabs-component-tabs {
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: 0;
+}
+
+.mdl__content .tabs-component-tabs li, .sidebar__content .tabs-component-tabs li {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-right: .5rem;
+    padding: .5rem;
+}
+
+.mdl__content .tabs-component-tabs li.is-active, .sidebar__content .tabs-component-tabs li.is-active {
+    border: 1px solid #cccccc;
+    border-bottom-color: #ffffff;
+    border-radius: 8px 8px 0 0;
+}
+
+.mdl__content .tabs-component-tabs li.is-active a, .sidebar__content .tabs-component-tabs li.is-active a {
+    color: #676767;
+}
+
+.mdl__content .tabs-component-tabs li:first-child, .sidebar__content .tabs-component-tabs li:first-child {
+    margin-left: 0;
+}
+
+.mdl__content .tabs-component-panels, .sidebar__content .tabs-component-panels {
+    padding-top: 1.5rem;
+    margin-top: -1px;
+    border-top: 1px solid #cccccc;
+}
+
 /* should be part of compiling process - see app.js */
 @-webkit-keyframes fadeOut {
     from {
