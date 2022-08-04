@@ -1,7 +1,6 @@
 .canvas {
     width: 100%;
     position: relative;
-    overflow: hidden;
 }
 
 .canvas-header {
@@ -69,7 +68,7 @@
     opacity: .5;
 }
 
-.note:not(.is-active) .tile__content textarea {
+.note:not('.is-active') .tile__content textarea {
     overflow: hidden;
 }
 
@@ -87,5 +86,55 @@
     z-index: 1;
 }
 
+.btn--link {
+    background: transparent;
+    border: none;
+}
+
+.btn--link:hover, .btn--link:focus {
+    cursor: pointer;
+    color: #d63f11;
+}
+
+.canvas-control {
+    position: absolute;
+    right: 0;
+    top: -30px;
+}
+
+.label-group:hover text, .label-group:hover use {
+    cursor: pointer;
+    fill: #d63f11;
+    color: #d63f11;
+}
+
 /* should be part of compiling process - see app.js */
-@keyframes fadeOut{from{opacity:1}to{opacity:0}}.v-toast--fade-out{animation-name:fadeOut}@keyframes fadeInDown{from{opacity:0;transform:translate3d(0, -100%, 0)}to{opacity:1;transform:none}}.v-toast--fade-in-down{animation-name:fadeInDown}@keyframes fadeInUp{from{opacity:0;transform:translate3d(0, 100%, 0)}to{opacity:1;transform:none}}.v-toast--fade-in-up{animation-name:fadeInUp}.fade-enter-active,.fade-leave-active{transition:opacity 150ms ease-out}.fade-enter,.fade-leave-to{opacity:0}.v-toast{position:fixed;display:flex;top:0;bottom:0;left:0;right:0;padding:2em;overflow:hidden;z-index:1052;pointer-events:none}.v-toast__item{display:inline-flex;align-items:center;animation-duration:150ms;margin:.5em 0;box-shadow:0 1px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius:.25em;pointer-events:auto;opacity:.92;color:#fff;min-height:3em;cursor:pointer}.v-toast__item--success{background-color:#28a745}.v-toast__item--info{background-color:#17a2b8}.v-toast__item--warning{background-color:#ffc107}.v-toast__item--error{background-color:#dc3545}.v-toast__item--default{background-color:#343a40}.v-toast__item.v-toast__item--top,.v-toast__item.v-toast__item--bottom{align-self:center}.v-toast__item.v-toast__item--top-right,.v-toast__item.v-toast__item--bottom-right{align-self:flex-end}.v-toast__item.v-toast__item--top-left,.v-toast__item.v-toast__item--bottom-left{align-self:flex-start}.v-toast__text{margin:0;padding:.5em 1em;word-break:break-word}.v-toast__icon{display:none}.v-toast.v-toast--top{flex-direction:column}.v-toast.v-toast--bottom{flex-direction:column-reverse}.v-toast.v-toast--custom-parent{position:absolute}@media screen and (max-width: 768px){.v-toast{padding:0;position:fixed !important}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+.v-toast--fade-out{animation-name:fadeOut}
+@keyframes fadeInDown{from{opacity:0;transform:translate3d(0, -100%, 0)}to{opacity:1;transform:none}}
+.v-toast--fade-in-down{animation-name:fadeInDown}
+@keyframes fadeInUp{from{opacity:0;transform:translate3d(0, 100%, 0)}to{opacity:1;transform:none}}
+.v-toast--fade-in-up{animation-name:fadeInUp}
+.fade-enter-active,.fade-leave-active{transition:opacity 150ms ease-out}
+.fade-enter,.fade-leave-to{opacity:0}
+.v-toast{position:fixed;display:flex;top:0;bottom:0;left:0;right:0;padding:2em;overflow:hidden;z-index:1052;pointer-events:none}
+.v-toast__item{display:inline-flex;align-items:center;animation-duration:150ms;margin:.5em 0;box-shadow:0 1px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius:.25em;pointer-events:auto;opacity:.92;color:#fff;min-height:3em;cursor:pointer}
+.v-toast__item--success{background-color:#408040}
+.v-toast__item--info{background-color:#17a2b8}
+.v-toast__item--warning{background-color:#e16a00}
+.v-toast__item--error{background-color:#d63f11}
+.v-toast__item--default{background-color:#343a40}
+.v-toast__item.v-toast__item--top,
+.v-toast__item.v-toast__item--bottom{align-self:center}
+.v-toast__item.v-toast__item--top-right,
+.v-toast__item.v-toast__item--bottom-right{align-self:flex-end}
+.v-toast__item.v-toast__item--top-left,
+.v-toast__item.v-toast__item--bottom-left{align-self:flex-start}
+.v-toast__text{margin:0;padding:.5em 1em;word-break:break-word}
+.v-toast__icon{display:none}
+.v-toast.v-toast--top{flex-direction:column}
+.v-toast.v-toast--bottom{flex-direction:column-reverse}
+.v-toast.v-toast--custom-parent{position:absolute}
+@media screen and (max-width: 768px){
+    .v-toast{padding:0;position:fixed !important}
+}
