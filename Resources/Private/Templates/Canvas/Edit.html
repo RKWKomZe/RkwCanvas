@@ -5,7 +5,16 @@
 
     <f:section name="main">
 
-        <div id="app"></div>
+        <f:render partial="Svg" />
 
+        <f:format.raw>
+            <script>window.translations = {translations}</script>
+        </f:format.raw>
+
+        <div class="flex-container center-main">
+            <div class="flex-basis-12">
+                <div id="app"></div>
+            </div>
+        </div>
     </f:section>
 </html>

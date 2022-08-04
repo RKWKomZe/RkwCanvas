@@ -15,6 +15,7 @@ namespace RKW\RkwCanvas\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
@@ -125,7 +126,22 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      */
     public function editAction(): void
     {
-        return;
+        $translations = [
+            'canvasController.message.success.notesSaved' => [
+                'value' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'canvasController.message.success.notesSaved',
+                    'rkw_canvas'
+                )
+            ],
+            'canvasController.message.success.notesSavingFailed' => [
+                'value' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'canvasController.message.success.notesSavingFailed',
+                    'rkw_canvas'
+                )
+            ],
+        ];
+
+        $this->view->assign('translations', json_encode($translations));
     }
 
     /**
@@ -148,7 +164,10 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
             $returnArray['message'] = [
                 'type'  => 'success',
-                'message' => 'Ihre Notizen wurden geladen.'
+                'message' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'canvasController.message.success.notesLoaded',
+                    'rkw_canvas'
+                )
             ];
             $returnArray['data'] = $canvas->getNotes();
 
@@ -158,7 +177,10 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
         $returnArray['message'] = [
             'type'  => 'error',
-            'message' => 'Es konnten keine Notizen für Sie gefunden werden.'
+            'message' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                'canvasController.message.success.notesNotFound',
+                'rkw_canvas'
+            )
         ];
 
         return json_encode($returnArray);
@@ -197,15 +219,42 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
                 $returnArray['message'] = [
                     'type' => 'success',
-                    'message' => 'Ihre Notizen wurden gespeichert.'
+                    'message' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                        'canvasController.message.success.notesSaved',
+                        'rkw_canvas'
+                    ),
                 ];
+
+            } else {
+
+                // Initialize new canvas
+                /** @var \RKW\RkwCanvas\Domain\Model\Canvas $canvas */
+                $canvas = GeneralUtility::makeInstance('RKW\\RkwCanvas\\Domain\\Model\\Canvas');
+                $canvas->setNotes($notes);
+                $canvas->setFrontendUser($this->getFrontendUser());
+                $this->canvasRepository->add($canvas);
+
+                // Persist
+                $this->persistenceManager->persistAll();
+
+                $returnArray['message'] = [
+                    'type' => 'success',
+                    'message' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                        'canvasController.message.success.notesSaved',
+                        'rkw_canvas'
+                    ),
+                ];
+
             }
 
         } else {
 
             $returnArray['message'] = [
                 'type' => 'error',
-                'message' => 'Ihre Notizen konnten nicht gespeichert werden.'
+                'message' => \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                    'canvasController.message.success.notesSavingFailed',
+                    'rkw_canvas'
+                ),
             ];
 
         }
