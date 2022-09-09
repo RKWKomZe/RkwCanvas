@@ -34,6 +34,25 @@
                 <source>Your notes could not be found.</source>
             </trans-unit>
 
+			<!--
+			=========================== FLEXFORMS ============================================
+			-->
+
+			<trans-unit id="flexform.canvas.save.mode">
+				<source>Save mode</source>
+			</trans-unit>
+
+			<trans-unit id="flexform.canvas.save.I.default">
+				<source>Do not save.</source>
+			</trans-unit>
+
+			<trans-unit id="flexform.canvas.save.I.database">
+				<source>Save to database</source>
+			</trans-unit>
+
+			<trans-unit id="flexform.canvas.save.I.localstorage">
+				<source>Save to localstorage</source>
+			</trans-unit>
 
 		</body>
 	</file>

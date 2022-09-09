@@ -39,6 +39,30 @@
                 <target>Es konnten keine Notizen für Sie gefunden werden.</target>
             </trans-unit>
 
+			<!--
+			=========================== FLEXFORMS ============================================
+			-->
+
+			<trans-unit id="flexform.canvas.save.mode">
+				<source>Save mode</source>
+				<target>Speichermodus</target>
+			</trans-unit>
+
+			<trans-unit id="flexform.canvas.save.I.default">
+				<source>Do not save.</source>
+				<target>Nicht speichern</target>
+			</trans-unit>
+
+			<trans-unit id="flexform.canvas.save.I.database">
+				<source>Save to database.</source>
+				<target>In Datenbank speichern</target>
+			</trans-unit>
+
+			<trans-unit id="flexform.canvas.save.I.localstorage">
+				<source>Save to localstorage.</source>
+				<target>Im Browser speichern</target>
+			</trans-unit>
+
 		</body>
 	</file>
 </xliff>
