@@ -15,6 +15,8 @@ namespace RKW\RkwCanvas\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3Fluid\Fluid\View\TemplateView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
@@ -114,6 +116,39 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         /** @var \RKW\RkwWebcheck\Domain\Repository\FrontendUserRepository $frontendUserRepository */
         return $this->frontendUserRepository->findByIdentifier($this->getFrontendUserId());
         //===
+    }
+
+
+    /**
+     * Method overrides is base method as base method relies
+     * on objectManager to instantiate PageRenderer::class.
+     * But PageRenderer::class is initially instantiated by
+     * GeneralUtility::makeInstance, so the base method does not
+     * append the assets. This function may be removed, if the
+     * installation is upgraded to TYPO3 9.5.
+     *
+     * see https://forge.typo3.org/issues/89445
+     *
+     * @deprecated
+     *
+     * @param \TYPO3\CMS\Extbase\Mvc\RequestInterface $request
+     * @return void
+     */
+    protected function renderAssetsForRequest($request)
+    {
+        if (!$this->view instanceof TemplateView) {
+            return;
+        }
+        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $variables = ['request' => $request, 'arguments' => $this->arguments];
+        $headerAssets = $this->view->renderSection('HeaderAssets', $variables, true);
+        $footerAssets = $this->view->renderSection('FooterAssets', $variables, true);
+        if (!empty(trim($headerAssets))) {
+            $pageRenderer->addHeaderData($headerAssets);
+        }
+        if (!empty(trim($footerAssets))) {
+            $pageRenderer->addFooterData($footerAssets);
+        }
     }
 
     /**

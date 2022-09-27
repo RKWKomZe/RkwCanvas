@@ -42,10 +42,6 @@ plugin.tx_rkwcanvas {
     }
 }
 
-# see Configuration/TypoScript/setup.typoscript
-page.includeCSS.txRkwCanvas = EXT:rkw_canvas/Resources/Public/Styles/canvas.css
-page.includeJSFooter.txRkwCanvas = EXT:rkw_canvas/Resources/Public/Scripts/canvas.js
-
 txRkwCanvasAjaxGet = PAGE
 txRkwCanvasAjaxGet {
     typeNum = 260

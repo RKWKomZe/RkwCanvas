@@ -3,6 +3,10 @@
 
     <f:layout name="Default" />
 
+    <f:section name="HeaderAssets">
+        <link rel="stylesheet" href="{f:uri.resource(path: 'Styles/canvas.css', extensionName: 'RkwCanvas')}"/>
+    </f:section>
+
     <f:section name="main">
 
         <f:render partial="Svg" />
@@ -19,4 +23,9 @@
             </div>
         </div>
     </f:section>
+
+    <f:section name="FooterAssets">
+        <script type="application/javascript" src="{f:uri.resource(path:'Scripts/canvas.js', extensionName: 'RkwCanvas')}"></script>
+    </f:section>
+
 </html>
