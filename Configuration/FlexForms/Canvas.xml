@@ -1,0 +1,53 @@
+<T3DataStructure>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <sheets>
+        <general>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:rkw_newsletter/Resources/Private/Language/locallang_db.xlf:flexform.subscription.general</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+                    <settings.saveMode>
+                        <TCEforms>
+                            <label>LLL:EXT:rkw_canvas/Resources/Private/Language/locallang_db.xlf:flexform.canvas.save.mode</label>
+                            <config>
+                                <type>select</type>
+                                <items type="array">
+                                    <numIndex index="0" type="array">
+                                        <numIndex index="0">LLL:EXT:rkw_canvas/Resources/Private/Language/locallang_db.xlf:flexform.canvas.save.I.default</numIndex>
+                                        <numIndex index="1"></numIndex>
+                                    </numIndex>
+                                    <numIndex index="1" type="array">
+                                        <numIndex index="0">LLL:EXT:rkw_canvas/Resources/Private/Language/locallang_db.xlf:flexform.canvas.save.I.database</numIndex>
+                                        <numIndex index="1">database</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2" type="array">
+                                        <numIndex index="0">LLL:EXT:rkw_canvas/Resources/Private/Language/locallang_db.xlf:flexform.canvas.save.I.localstorage</numIndex>
+                                        <numIndex index="1">local</numIndex>
+                                    </numIndex>
+                                </items>
+                            </config>
+                        </TCEforms>
+                    </settings.saveMode>
+                    <settings.readMore>
+                        <TCEforms>
+                            <label>LLL:EXT:rkw_canvas/Resources/Private/Language/locallang_db.xlf:flexform.canvas.readMore.label</label>
+                            <config>
+                                <type>group</type>
+                                <internal_type>db</internal_type>
+                                <allowed>pages</allowed>
+                                <size>2</size>
+                                <maxitems>1</maxitems>
+                                <minitems>0</minitems>
+                                <show_thumbs>1</show_thumbs>
+                            </config>
+                        </TCEforms>
+                    </settings.readMore>
+                </el>
+            </ROOT>
+        </general>
+    </sheets>
+</T3DataStructure>
