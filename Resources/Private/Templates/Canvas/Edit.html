@@ -17,7 +17,12 @@
 
         <div class="flex-container center-main">
             <div class="flex-basis-12">
-                <div id="app" class="flex-container center-main" data-save-mode="{settings.saveMode}">
+                <div
+                    id="js-canvas"
+                    class="flex-container center-main"
+                    data-save-mode="{settings.saveMode}"
+                    data-read-more="{readMore}"
+                >
                     <canvas></canvas>
                 </div>
             </div>
@@ -25,6 +30,7 @@
     </f:section>
 
     <f:section name="FooterAssets">
+        <script type="application/javascript" src="{f:uri.resource(path:'Scripts/canvas.vendor.js', extensionName: 'RkwCanvas')}"></script>
         <script type="application/javascript" src="{f:uri.resource(path:'Scripts/canvas.js', extensionName: 'RkwCanvas')}"></script>
     </f:section>
 

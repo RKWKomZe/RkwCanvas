@@ -38,6 +38,10 @@
 			=========================== FLEXFORMS ============================================
 			-->
 
+			<trans-unit id="flexform.canvas.readMore.label">
+				<source>Read more</source>
+			</trans-unit>
+
 			<trans-unit id="flexform.canvas.save.mode">
 				<source>Save mode</source>
 			</trans-unit>

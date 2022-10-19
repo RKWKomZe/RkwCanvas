@@ -176,6 +176,10 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             ],
         ];
 
+        $this->view->assign('readMore', $this->uriBuilder->reset()
+            ->setTargetPageUid($this->settings['readMore'])
+            ->setCreateAbsoluteUri(true)
+            ->build());
         $this->view->assign('translations', json_encode($translations));
     }
 
