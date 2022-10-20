@@ -3,6 +3,10 @@
 
     <f:layout name="Default" />
 
+    <f:section name="HeaderAssets">
+        <link rel="stylesheet" href="{f:uri.resource(path: 'Styles/canvas.css', extensionName: 'RkwCanvas')}"/>
+    </f:section>
+
     <f:section name="main">
 
         <f:render partial="Svg" />
@@ -13,8 +17,21 @@
 
         <div class="flex-container center-main">
             <div class="flex-basis-12">
-                <div id="app"></div>
+                <div
+                    id="js-canvas"
+                    class="flex-container center-main"
+                    data-save-mode="{settings.saveMode}"
+                    data-read-more="{readMore}"
+                >
+                    <canvas></canvas>
+                </div>
             </div>
         </div>
     </f:section>
+
+    <f:section name="FooterAssets">
+        <script type="application/javascript" src="{f:uri.resource(path:'Scripts/canvas.vendor.js', extensionName: 'RkwCanvas')}"></script>
+        <script type="application/javascript" src="{f:uri.resource(path:'Scripts/canvas.js', extensionName: 'RkwCanvas')}"></script>
+    </f:section>
+
 </html>
