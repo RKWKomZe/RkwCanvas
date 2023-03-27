@@ -1,5 +1,4 @@
 <?php
-
 namespace RKW\RkwCanvas\Domain\Repository;
 
 /*
@@ -15,6 +14,11 @@ namespace RKW\RkwCanvas\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Madj2k\CoreExtended\Domain\Repository\StoragePidAwareAbstractRepository;
+use Madj2k\FeRegister\Domain\Model\FrontendUser;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
+
 /**
  * CanvasRepository
  *
@@ -23,37 +27,39 @@ namespace RKW\RkwCanvas\Domain\Repository;
  * @package RKW_RkwCanvas
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
-class CanvasRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class CanvasRepository extends StoragePidAwareAbstractRepository
 {
 
     /**
      * Set setRespectStorage on FALSE by default
-     */
+
     public function initializeObject()
     {
-        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings $querySettings */
-        $querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings $querySettings
+        $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false); // ignore the storagePid
         $this->setDefaultQuerySettings($querySettings);
-    }
+    } */
+
 
     /**
      * find canvases for a specific user
      * sorted by tstamp
      *
-     * @param \RKW\RkwWebcheck\Domain\Model\FrontendUser $feUser
-     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @param \Madj2k\FeRegister\Domain\Model\FrontendUser $feUser
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
      */
-    public function findByFeUser($feUser)
+    public function findByFeUser(FrontendUser $feUser): QueryResultInterface
     {
         $query = $this->createQuery();
         $query->matching(
             $query->equals('frontendUser', $feUser)
         );
-        $query->setOrderings(array("tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING));
+        $query->setOrderings(
+            ["tstamp" => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_DESCENDING]
+        );
 
         return $query->execute();
-        //===
     }
 
 }

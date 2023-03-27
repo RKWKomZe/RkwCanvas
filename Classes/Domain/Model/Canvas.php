@@ -15,6 +15,8 @@ namespace RKW\RkwCanvas\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Madj2k\FeRegister\Domain\Model\FrontendUser;
+
 /**
  * Canvas
  *
@@ -25,65 +27,35 @@ namespace RKW\RkwCanvas\Domain\Model;
  */
 class Canvas extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-    /**
-     * uid
-     *
-     * @var integer
-     */
-    protected $uid;
 
     /**
-     * title
-     *
      * @var string
      */
-    protected $title;
+    protected string $title ='';
 
 
     /**
-     * notes
-     *
      * @var string
      */
-    protected $notes;
+    protected string $notes = '';
+
 
     /**
-     * frontendUser
-     *
-     * @var \RKW\RkwRegistration\Domain\Model\FrontendUser
+     * @var \Madj2k\FeRegister\Domain\Model\FrontendUser|null
      */
-    protected $frontendUser = null;
+    protected ?FrontendUser $frontendUser = null;
 
-    /**
-     * Returns the uid
-     *
-     * @return string $uid
-     */
-    public function getUid()
-    {
-        return $this->uid;
-    }
-
-    /**
-     * Sets the uid
-     *
-     * @param string $uid
-     * @return void
-     */
-    public function setUid($uid)
-    {
-        $this->uid = $uid;
-    }
 
     /**
      * Returns the title
      *
-     * @return string $title
+     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
+
 
     /**
      * Sets the title
@@ -91,20 +63,22 @@ class Canvas extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $title
      * @return void
      */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
+
 
     /**
      * Returns the notes
      *
      * @return string $notes
      */
-    public function getNotes()
+    public function getNotes(): string
     {
         return $this->notes;
     }
+
 
     /**
      * Sets the notes
@@ -112,28 +86,30 @@ class Canvas extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @param string $notes
      * @return void
      */
-    public function setNotes($notes)
+    public function setNotes(string $notes): void
     {
         $this->notes = $notes;
     }
 
+
     /**
      * Returns the frontendUser
      *
-     * @return \RKW\RkwRegistration\Domain\Model\FrontendUser $frontendUser
+     * @return \Madj2k\FeRegister\Domain\Model\FrontendUser
      */
-    public function getFrontendUser()
+    public function getFrontendUser():? FrontendUser
     {
         return $this->frontendUser;
     }
 
+
     /**
      * Sets the frontendUser
      *
-     * @param \RKW\RkwRegistration\Domain\Model\FrontendUser $frontendUser
+     * @param \Madj2k\FeRegister\Domain\Model\FrontendUser $frontendUser
      * @return void
      */
-    public function setFrontendUser(\RKW\RkwRegistration\Domain\Model\FrontendUser $frontendUser)
+    public function setFrontendUser(FrontendUser $frontendUser): void
     {
         $this->frontendUser = $frontendUser;
     }
