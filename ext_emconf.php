@@ -16,18 +16,18 @@ $EM_CONF[$_EXTKEY] = [
 	'category' => 'misc',
     'author' => 'Christian Dilger',
     'author_email' => 'c.dilger@addorange.de',
-	'state' => 'beta',
+	'state' => 'stable',
 	'internal' => '',
 	'uploadfolder' => '0',
 	'createDirs' => '',
 	'clearCacheOnLoad' => 0,
-	'version' => '9.5.4',
+	'version' => '9.5.5',
 	'constraints' => [
 		'depends' => [
-            'typo3' => '7.6.0-8.7.99',
-			'rkw_basics' => '8.7.80-8.7.99',
-			'rkw_mailer' => '9.5.9-9.5.99',
-            'rkw_registration' => '8.7.0-8.7.99'
+            'typo3' => '9.5.0-9.5.99',
+            'core_extended' => '9.5.0-9.5.99',
+            'fe_register' => '9.5.0-9.5.99',
+			'rkw_basics' => '9.5.0-9.5.99'
 		],
 		'conflicts' => [
 		],

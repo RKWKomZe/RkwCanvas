@@ -15,10 +15,15 @@ namespace RKW\RkwCanvas\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Madj2k\FeRegister\Domain\Model\FrontendUser;
+use Madj2k\FeRegister\Domain\Repository\FrontendUserRepository;
+use Madj2k\FeRegister\Utility\FrontendUserSessionUtility;
+use RKW\RkwCanvas\Domain\Model\Canvas;
+use RKW\RkwCanvas\Domain\Repository\CanvasRepository;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 use TYPO3Fluid\Fluid\View\TemplateView;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * CanvasController
@@ -31,73 +36,48 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
 
-    const SESSION_KEY = 'rkw_canvas';
-
     /**
-     * canvasRepository
-     *
      * @var \RKW\RkwCanvas\Domain\Repository\CanvasRepository
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
-    protected $canvasRepository = null;
+    protected ?CanvasRepository $canvasRepository;
+
 
     /**
-     * frontendUserRepository
-     *
-     * @var \RKW\RkwRegistration\Domain\Repository\FrontendUserRepository
-     * @inject
+     * @var \Madj2k\FeRegister\Domain\Repository\FrontendUserRepository
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
-    protected $frontendUserRepository = null;
+    protected FrontendUserRepository $frontendUserRepository;
+
 
     /**
-     * Persistence Manager
-     *
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-     * @inject
+     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
-    protected $persistenceManager;
+    protected PersistenceManager $persistenceManager;
 
-    /**
-     * @var \TYPO3\CMS\Extbase\Object\ObjectManager
-     * @inject
-     */
-    protected $objectManager;
-
-    /**
-     * initializeAction
-     *
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
-     */
-    public function initializeAction(): void
-    {
-
-        parent::initializeAction();
-
-    }
 
     /**
      * returns the logged in FrontendUser - to be used in other functions
      *
      * @return int the user id
+     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
      */
-    protected function getFrontendUserId()
+    protected function getFrontendUserId(): int
     {
-        $userId = $GLOBALS['TSFE']->fe_user->user['uid'];
-
-        return $userId;
-        //===
+        return FrontendUserSessionUtility::getLoggedInUserId();
     }
+
 
     /**
      * Returns current logged in user object
      *
-     * @return \RKW\RkwWebcheck\Domain\Model\FrontendUser|NULL
+     * @return \Madj2k\FeRegister\Domain\Model\FrontendUser|null
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
+     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
      */
-    protected function getFrontendUser()
+    protected function getFrontendUser():? FrontendUser
     {
 
         if (!$this->getFrontendUserId()) {
@@ -110,12 +90,11 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
                 \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR
             );
             $this->redirect('error');
-            //===
         }
 
+
         /** @var \RKW\RkwWebcheck\Domain\Repository\FrontendUserRepository $frontendUserRepository */
-        return $this->frontendUserRepository->findByIdentifier($this->getFrontendUserId());
-        //===
+        return FrontendUserSessionUtility::getLoggedInUser();
     }
 
 
@@ -130,15 +109,15 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * see https://forge.typo3.org/issues/89445
      *
      * @deprecated
-     *
      * @param \TYPO3\CMS\Extbase\Mvc\RequestInterface $request
      * @return void
      */
-    protected function renderAssetsForRequest($request)
+    protected function renderAssetsForRequest($request): void
     {
         if (!$this->view instanceof TemplateView) {
             return;
         }
+
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $variables = ['request' => $request, 'arguments' => $this->arguments];
         $headerAssets = $this->view->renderSection('HeaderAssets', $variables, true);
@@ -151,13 +130,11 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         }
     }
 
+
     /**
      * action edit
      *
      * @return void
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function editAction(): void
     {
@@ -183,19 +160,20 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $this->view->assign('translations', json_encode($translations));
     }
 
+
     /**
      * action jsonGet
      *
      * @return string
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\
+     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
      */
     public function jsonGetAction(): string
     {
 
         $returnArray = [];
-
         $canvases = $this->canvasRepository->findByFeUser($this->getFrontendUser());
 
         if (count($canvases) > 0) {
@@ -211,7 +189,6 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
             $returnArray['data'] = $canvas->getNotes();
 
             return json_encode($returnArray);
-            //===
         }
 
         $returnArray['message'] = [
@@ -225,6 +202,7 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         return json_encode($returnArray);
     }
 
+
     /**
      * action jsonPost
      *
@@ -234,18 +212,18 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException
      * @throws \TYPO3\CMS\Extbase\Mvc\Exception\StopActionException
+     * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
-    public function jsonPostAction($notes = ''): string
+    public function jsonPostAction(string $notes = ''): string
     {
 
         $returnArray = [];
 
         $frontendUser = $this->getFrontendUser();
-
         if ($this->request->hasArgument('notes') && $frontendUser) {
 
             $notes = trim(stripslashes($this->request->getArgument('notes')), '"');
-
             $canvases = $this->canvasRepository->findByFeUser($this->getFrontendUser());
 
             if (count($canvases) > 0) {
@@ -268,7 +246,7 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 
                 // Initialize new canvas
                 /** @var \RKW\RkwCanvas\Domain\Model\Canvas $canvas */
-                $canvas = GeneralUtility::makeInstance('RKW\\RkwCanvas\\Domain\\Model\\Canvas');
+                $canvas = GeneralUtility::makeInstance(Canvas::class);
                 $canvas->setNotes($notes);
                 $canvas->setFrontendUser($this->getFrontendUser());
                 $this->canvasRepository->add($canvas);
