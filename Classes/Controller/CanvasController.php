@@ -40,22 +40,48 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
      * @var \RKW\RkwCanvas\Domain\Repository\CanvasRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
-    protected ?CanvasRepository $canvasRepository;
+    protected ?CanvasRepository $canvasRepository = null;
 
 
     /**
      * @var \Madj2k\FeRegister\Domain\Repository\FrontendUserRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
-    protected FrontendUserRepository $frontendUserRepository;
+    protected ?FrontendUserRepository $frontendUserRepository = null;
 
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
-    protected PersistenceManager $persistenceManager;
+    protected ?PersistenceManager $persistenceManager = null;
 
+
+    /**
+     * @var \RKW\RkwCanvas\Domain\Repository\CanvasRepository
+     */
+    public function injectCanvasRepository(CanvasRepository $canvasRepository)
+    {
+        $this->canvasRepository = $canvasRepository;
+    }
+
+
+    /**
+     * @var \Madj2k\FeRegister\Domain\Repository\FrontendUserRepository
+     */
+    public function injectFrontendUserRepository(FrontendUserRepository $frontendUserRepository)
+    {
+        $this->frontendUserRepository = $frontendUserRepository;
+    }
+
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+     */
+    public function injectPersistenceManager(PersistenceManager $persistenceManager)
+    {
+        $this->persistenceManager = $persistenceManager;
+    }
 
     /**
      * returns the logged in FrontendUser - to be used in other functions

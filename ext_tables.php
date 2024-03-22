@@ -6,11 +6,11 @@ call_user_func(
     {
 
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-            'RKW.RkwCanvas',
+            $extKey,
             'Canvas',
             'RKW Canvas: Canvas'
         );
 
     },
-    $_EXTKEY
+    'rkw_canvas'
 );
