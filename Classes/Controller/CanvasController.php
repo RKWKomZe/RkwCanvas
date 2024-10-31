@@ -37,51 +37,38 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 {
 
     /**
-     * @var \RKW\RkwCanvas\Domain\Repository\CanvasRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var \RKW\RkwCanvas\Domain\Repository\CanvasRepository|null
      */
     protected ?CanvasRepository $canvasRepository = null;
 
 
     /**
-     * @var \Madj2k\FeRegister\Domain\Repository\FrontendUserRepository
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var \Madj2k\FeRegister\Domain\Repository\FrontendUserRepository|null
      */
     protected ?FrontendUserRepository $frontendUserRepository = null;
 
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-     * @TYPO3\CMS\Extbase\Annotation\Inject
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager|null
      */
     protected ?PersistenceManager $persistenceManager = null;
 
 
     /**
-     * @var \RKW\RkwCanvas\Domain\Repository\CanvasRepository
+     * @param CanvasRepository          $canvasRepository
+     * @param FrontendUserRepository    $frontendUserRepository
+     * @param PersistenceManager        $persistenceManager
      */
-    public function injectCanvasRepository(CanvasRepository $canvasRepository)
-    {
+    public function __construct(
+        CanvasRepository $canvasRepository,
+        FrontendUserRepository $frontendUserRepository,
+        PersistenceManager $persistenceManager
+    ) {
         $this->canvasRepository = $canvasRepository;
-    }
-
-
-    /**
-     * @var \Madj2k\FeRegister\Domain\Repository\FrontendUserRepository
-     */
-    public function injectFrontendUserRepository(FrontendUserRepository $frontendUserRepository)
-    {
         $this->frontendUserRepository = $frontendUserRepository;
-    }
-
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-     */
-    public function injectPersistenceManager(PersistenceManager $persistenceManager)
-    {
         $this->persistenceManager = $persistenceManager;
     }
+
 
     /**
      * returns the logged in FrontendUser - to be used in other functions
@@ -247,7 +234,7 @@ class CanvasController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
         $returnArray = [];
 
         $frontendUser = $this->getFrontendUser();
-        if ($this->request->hasArgument('notes') && $frontendUser) {
+        if ($frontendUser && $this->request->hasArgument('notes')) {
 
             $notes = trim(stripslashes($this->request->getArgument('notes')), '"');
             $canvases = $this->canvasRepository->findByFeUser($this->getFrontendUser());
